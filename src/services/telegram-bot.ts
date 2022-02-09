@@ -9,11 +9,14 @@ export class CustomContext extends Context {
 export type Telegraf = GenericTelegraf<CustomContext>;
 
 export default class TelegramBot {
-    public telegraf!: Telegraf;
+    public telegraf: Telegraf;
     private static instance: TelegramBot;
 
-    public initialize(bindingCallback: (bot: Telegraf)=>void): Promise<void> {
+    constructor() {
         this.telegraf = new GenericTelegraf(process.env.TELEGRAM_API_KEY as string, { contextType: CustomContext });
+    }
+
+    public initialize(bindingCallback: (bot: Telegraf)=>void): Promise<void> {
         this.telegraf.use(telegrafThrottler({
             in: {
                 highWater: 1,
