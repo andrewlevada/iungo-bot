@@ -1,4 +1,4 @@
-import { Context, Telegraf as GenericTelegraf } from "telegraf";
+import { Context, Telegraf as GenericTelegraf, Telegram } from "telegraf";
 import telegrafThrottler from "telegraf-throttler";
 import Bottleneck from "bottleneck";
 
@@ -11,6 +11,9 @@ export type Telegraf = GenericTelegraf<CustomContext>;
 export default class TelegramBot {
     public telegraf: Telegraf;
     private static instance: TelegramBot;
+
+    get tgf(): Telegraf { return this.telegraf; }
+    get tg(): Telegram { return this.telegraf.telegram; }
 
     constructor() {
         this.telegraf = new GenericTelegraf(process.env.TELEGRAM_API_KEY as string, { contextType: CustomContext });

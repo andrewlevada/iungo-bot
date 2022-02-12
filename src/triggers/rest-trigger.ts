@@ -22,7 +22,9 @@ export class RestTrigger extends Trigger {
     }
 
     private bindRequests(callback: (message: Message) => void) {
-        this.app.get("/test", () => callback({ project: "general", sender: "api", action: "test" }))
+        this.app.post("/:project/:action",req => callback(
+            { project: req.params.project, sender: "api", action: req.params.action }
+        ));
     }
 
     destroy(reason: string): void {
