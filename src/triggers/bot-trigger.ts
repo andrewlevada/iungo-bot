@@ -5,7 +5,7 @@ import * as Sentry from "@sentry/node";
 import TextMessage = TelegramMessage.TextMessage;
 
 export default class BotTrigger extends Trigger {
-    initializeAndBind(callback: (message: Message) => void): Promise<void> {
+    initializeAndBind(callback: (message: Message) => Promise<void>): Promise<void> {
         return TelegramBot.get().initialize(bot => {
             bot.use((ctx, next) => {
                 const userId = ctx.from!.id.toString();
@@ -27,7 +27,7 @@ export default class BotTrigger extends Trigger {
                     const address = text[1].split(":");
                     const msg: Message = { project: address[0], action: address[1], sender: ctx.userId };
                     if (text.length > 2) msg.params = JSON.parse(text[2]);
-                    callback(msg);
+                    callback(msg).then(() => ctx.reply("Got it"));
                 }
             });
 

@@ -4,7 +4,7 @@ import { Job, scheduleJob } from "node-schedule";
 export default class TimerTrigger extends Trigger {
     private jobs: Job[] = [];
 
-    initializeAndBind(callback: (message: Message) => void): Promise<void> {
+    initializeAndBind(callback: (message: Message) => Promise<void>): Promise<void> {
         this.jobs.push(scheduleJob("7 10 * * *",
             () => callback({ project: "general", sender: "api", action: "time"})));
 

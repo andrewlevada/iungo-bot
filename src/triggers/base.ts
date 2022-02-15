@@ -1,5 +1,5 @@
 export default abstract class Trigger {
-    public abstract initializeAndBind(callback: (message: Message)=>void): Promise<void>;
+    public abstract initializeAndBind(callback: (message: Message)=>Promise<void>): Promise<void>;
     public abstract destroy(reason: string): void;
 }
 

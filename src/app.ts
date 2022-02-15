@@ -27,18 +27,23 @@ const processorsFiles = fs.readdirSync(`${path.resolve(__dirname)}/processors`);
 processorsFiles.forEach(v => import(`./processors/${v}`));
 
 
-function processMessage(message: Message): void {
-    console.log(`Message: ${message.project} ${message.sender} ${message.action}`);
+function processMessage(message: Message): Promise<void> {
+    console.log(`Message: ${message.project}:${message.action} from ${message.sender}`);
     if (processors.length === 0) {
         console.log("Processors are not loaded!");
-        return;
+        return Promise.resolve();
     }
 
     const stack = [...processors];
-    stack.pop()!.process(message, next);
-    function next() {
+    return stack.pop()!.process(message).then(next);
+
+    function next(hasProcessed: boolean): Promise<void> {
+        if (hasProcessed) return Promise.resolve();
+
         const nextProcessor = stack.pop();
-        if (!nextProcessor) console.log("Did not find fitting processor for message");
-        else nextProcessor.process(message, next);
+        if (nextProcessor) return nextProcessor.process(message).then();
+
+        console.log("Did not find fitting processor for message");
+        return Promise.resolve();
     }
 }

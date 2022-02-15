@@ -39,6 +39,10 @@ export default class TelegramBot {
         return this.telegraf.launch();
     }
 
+    public sendMessages(userIds: string[], text: string): Promise<void> {
+        return Promise.all(userIds.map(userId => this.tg.sendMessage(userId, text))).then();
+    }
+
     public static get(): TelegramBot {
         if (!this.instance) this.instance = new TelegramBot();
         return this.instance;
