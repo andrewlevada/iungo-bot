@@ -6,4 +6,4 @@ node_modules/
 *.sublime-*
 .idea
 
-serviceAccountKey.json
+env_variables.yaml
