@@ -20,13 +20,14 @@ export class RestTrigger extends Trigger {
         this.bindRequests(callback);
         this.app.use(this.router.routes());
         this.app.use(this.router.allowedMethods());
-        this.app.listen(8082);
+        this.app.listen(process.env.PORT || 8080);
 
         return Promise.resolve();
     }
 
     private bindRequests(callback: (message: Message) => Promise<void>) {
-        this.router.all("/:project/:action", ctx =>
+        this.router.get("/", ctx => { ctx.body = "Iungo is up and running!"; });
+        this.router.post("/:project/:action", ctx =>
             callback({ project: ctx.params.project, sender: "api", action: ctx.params.action, params: ctx.request.body })
                 .then(() => { ctx.status = 200; })
         );
