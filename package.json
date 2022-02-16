@@ -4,10 +4,9 @@
   "private": true,
   "license": "Unlicence",
   "scripts": {
-    "serve": "cross-env NODE_ENV=development tsc && npm run node",
-    "start": "cross-env NODE_ENV=production tsc && npm run node",
-    "node": "node build/app.js --enable-source-maps",
-    "deploy": "gcloud app deploy --project=iungo-1"
+    "serve": "cross-env NODE_ENV=development tsc && npm run start",
+    "start": "node build/app.js --enable-source-maps",
+    "deploy": "tsc && gcloud app deploy --project=iungo-1"
   },
   "repository": {
     "type": "git",

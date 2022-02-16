@@ -10,7 +10,7 @@ import path from "path";
 
 if (process.env.NODE_ENV === "production") Sentry.init({
     dsn: process.env.SENTRY_DSN,
-    tracesSampleRate: 0.8,
+    tracesSampleRate: 0.6,
     integrations: [new Sentry.Integrations.Http({ tracing: true })],
 });
 
