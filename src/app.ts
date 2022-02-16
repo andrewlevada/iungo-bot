@@ -24,7 +24,7 @@ Promise.all(triggers.map(trigger => trigger.initializeAndBind(processMessage))).
 export const processors: Processor[] = [];
 
 const processorsFiles = fs.readdirSync(`${path.resolve(__dirname)}/processors`);
-processorsFiles.forEach(v => import(`./processors/${v}`));
+processorsFiles.filter(v => v.endsWith(".js")).forEach(v => import(`./processors/${v}`));
 
 
 function processMessage(message: Message): Promise<void> {
